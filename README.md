@@ -29,6 +29,8 @@ source .venv/bin/activate
 pip install -e .
 ```
 
+Alternatively, with [uv](https://docs.astral.sh/uv/), `uv sync` creates the environment with the exact versions pinned in `uv.lock`.
+
 ## Experiments
 All experiments from the paper can be found in the `scripts` folder. For example, to generate Figure 2 from the paper, simply run `python scripts/intro.py`.
 
@@ -36,4 +38,6 @@ All experiments from the paper can be found in the `scripts` folder. For example
 - To add a new dataset, extend the enums in `configs.py` and create a new load function in `data.py` (may also need to add a metric to `metrics.py`).
 
 ## Known Issues
-- Setting `lora_compress=True` can cause OOM if the overparameterized LoRA is too large before compression. Set `lora_compress=False` in such cases. 
+- Setting `lora_compress=True` can cause OOM if the overparameterized LoRA is too large before compression. Set `lora_compress=False` in such cases.
+- The code relies on the Flax models in `transformers`, which were removed in `transformers` 5, hence the `transformers<5` pin.
+- `jax>=0.10` removed `jnp.clip(a_min=, a_max=)`, which the Flax T5 model in `transformers` 4.x still uses (breaks `scripts/nlg_fewshot.py`), hence the `jax<0.10` pin.
