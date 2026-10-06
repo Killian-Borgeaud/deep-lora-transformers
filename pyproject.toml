@@ -11,8 +11,8 @@ version = "0.0.1"
 dependencies = [
     "dataclasses-json",
     "scikit-learn",
-    "jax[cpu];platform_system=='Darwin'",
-    "jax[cuda12];platform_system=='Linux'",
+    "jax[cpu]<0.10;platform_system=='Darwin'",
+    "jax[cuda12]<0.10;platform_system=='Linux'",
     "transformers<5",
     "datasets",
     "evaluate",
