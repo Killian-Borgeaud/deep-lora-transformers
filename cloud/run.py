@@ -3,6 +3,7 @@
 From the repo root:
 
     uv run --group modal modal run cloud/run.py --script intro
+    uv run --group modal modal run cloud/run.py --script stsb_save_checkpoint --gpu A100-80GB
 
 Checkpoints and figures are written to the `dlt-checkpoints` Volume. finetune() skips
 experiments that already exist there, so an interrupted script resumes where it stopped.
@@ -54,5 +55,6 @@ def run(script: str):
 
 
 @app.local_entrypoint()
-def main(script: str = "intro"):
-    run.remote(script)
+def main(script: str = "intro", gpu: str = "A100"):
+    # Full-width runs (rank=None) on all-dense need more than 40GB, use --gpu A100-80GB
+    run.with_options(gpu=gpu).remote(script)
