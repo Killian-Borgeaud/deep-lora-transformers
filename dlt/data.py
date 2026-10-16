@@ -128,7 +128,8 @@ def load_e2e_nlg_dataset(
     sample_seed: int,
 ) -> Tuple[Dataset, Dataset]:
 
-    raw_datasets = datasets.load_dataset("GEM/e2e_nlg")
+    # datasets>=4 no longer runs loading scripts, so use the Hub's parquet conversion
+    raw_datasets = datasets.load_dataset("GEM/e2e_nlg", revision="refs/convert/parquet")
     source_key = "meaning_representation"
     target_key = "target"
 
