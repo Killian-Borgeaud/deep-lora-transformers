@@ -13,7 +13,7 @@ dependencies = [
     "scikit-learn",
     "jax[cpu]<0.10;platform_system=='Darwin'",
     "jax[cuda12]<0.10;platform_system=='Linux'",
-    "transformers<5",
+    "transformers>=4.57,<5",
     "datasets",
     "evaluate",
     "flax",
@@ -25,11 +25,11 @@ dependencies = [
     "tf-keras",
     "seaborn",
     "jupyter",
-    "chex>=0.1.92",
-    "optax>=0.2.8",
-    "tensorboard>=2.21.0",
+    "chex",
+    "optax",
+    "tensorboard",
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.14"
 authors = [
   {name = "Can Yaras", email = "cjyaras@gmail.com"},
 ]

@@ -336,7 +336,9 @@ def create_compressed_lora_train_state(
         comp_mf_params["mf"] = mf_params
         compressed_lora_params_numpy[k] = comp_mf_params
 
-    compressed_lora_params = jax.tree_util.tree_map(jnp.array, compressed_lora_params_numpy)
+    compressed_lora_params = jax.tree_util.tree_map(
+        jnp.array, compressed_lora_params_numpy
+    )
 
     inner_tx = uncompressed_lora_state.tx
     outer_tx = create_optimizer(
