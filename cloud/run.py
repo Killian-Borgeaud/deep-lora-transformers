@@ -55,6 +55,9 @@ def run(script: str):
 
 
 @app.local_entrypoint()
-def main(script: str = "intro", gpu: str = "A100"):
-    # Full-width runs (rank=None) on all-dense need more than 40GB, use --gpu A100-80GB
-    run.with_options(gpu=gpu).remote(script)
+def main(script: str = "intro", gpu: str = "A100", matmul_precision: str = ""):
+    # Full-width runs (rank=None) on all-dense need more than 40GB, use --gpu A100-80GB.
+    # On Ampere+ GPUs JAX uses TF32 for float32 matmuls by default; pass
+    # --matmul-precision highest to get full float32, as on the paper's V100.
+    env = {"JAX_DEFAULT_MATMUL_PRECISION": matmul_precision} if matmul_precision else {}
+    run.with_options(gpu=gpu, env=env).remote(script)
