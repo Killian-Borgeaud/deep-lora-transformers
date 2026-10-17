@@ -55,9 +55,10 @@ def run(script: str):
 
 
 @app.local_entrypoint()
-def main(script: str = "intro", gpu: str = "A100", matmul_precision: str = ""):
+def main(script: str = "intro", gpu: str = "A100", matmul_precision: str = "highest"):
     # Full-width runs (rank=None) on all-dense need more than 40GB, use --gpu A100-80GB.
-    # On Ampere+ GPUs JAX uses TF32 for float32 matmuls by default; pass
-    # --matmul-precision highest to get full float32, as on the paper's V100.
-    env = {"JAX_DEFAULT_MATMUL_PRECISION": matmul_precision} if matmul_precision else {}
+    # On Ampere+ GPUs JAX defaults to TF32 for float32 matmuls, which made intro.py
+    # diverge after ~300 steps. "highest" is full float32, as on the paper's V100.
+    # Pass --matmul-precision default to get JAX's default back.
+    env = {"JAX_DEFAULT_MATMUL_PRECISION": matmul_precision}
     run.with_options(gpu=gpu, env=env).remote(script)
